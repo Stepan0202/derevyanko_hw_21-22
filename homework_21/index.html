@@ -5,12 +5,57 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="css/nullStyle.css">
-    <link rel="stylesheet" href="../bootstrap/css/bootstrap.min.css">
     <link rel="stylesheet" href="css/style.css">
-    <title>Lesson </title>
+    <title>Lesson 10. Hw 21</title>
 </head>
 <body>
-    <script src="../bootstrap/js/bootstrap.min.js"></script>
+    <div class="container">
+        <form action="#" method="get" id="subscribe">
+            <label for="name">Your name</label>
+            <input type="text" value="Stepan" name="name" id="name" required>
+            <label for="surname">Your surname</label>
+            <input type="text" value="Derevyanko" name="surname" id="surname" required>
+            <label for="birth">Your birthday</label>
+            <input type="date" value="1993-02-02" name="birth" id="birth">
+            <label for="sex">Your gender</label>
+            <div>
+                <label for="man">
+                    <input type="radio" name="sex" id="man" value = 'man'>
+                    Man
+                </label>
+            </div>
+            <div>
+                <label for="women">
+                    <input type="radio" name="sex" id="women" value = 'women'>
+                    Women
+                </label>
+                
+            </div>
+            <select name="city" id="city">
+                <option value="odesa">Odesa</option>
+                <option value="kyiv">Kyiv</option>
+                <option value="ternopil">Ternopil</option>
+                <option value="dnipro">Dnipro</option>
+                <option value="lviv">Lviv</option>
+            </select>
+            <textarea name="adress" id="adress" cols="30" rows="2"></textarea>
+            <label for="ukrainian"><input type="checkbox" name="languages" id="ukrainian">Ukrainian</label>
+            <label for="english"><input type="checkbox" name="languages" id="english">English</label>
+            <label for="spanish"><input type="checkbox" name="languages" id="spanish">Spanish</label>
+            <input type="submit" value="Save">
+        </form>
+        <table id="userInfo">
+            <tr>
+                <th>Name</th>
+                <th>Surname</th>
+                <th>Birthday</th>
+                <th>Gender</th>
+                <th>City</th>
+                <th>Address</th>
+                <th>Languages</th>
+            </tr>
+        </table>
+    </div>  
     <script src="js/script.js"></script>
 </body>
 </html>
