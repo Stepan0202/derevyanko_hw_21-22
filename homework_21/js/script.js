@@ -47,7 +47,6 @@ function processRadio(radioNodeList, type){
             
         } 
     }
-    console.log(checked);
     return checked;
 
 }

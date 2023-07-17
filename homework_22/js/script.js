@@ -1,7 +1,4 @@
 'use strict'
-window.onload = () => {
-    createCategories(categories, document.querySelector('.navigation__menu'));
-}
 const categories = [
     {
         name: 'keys',
@@ -89,6 +86,15 @@ const categories = [
 ]
 let currentCategory;
 let currentGood;
+const formContainer = document.querySelector('#order');
+const form = formContainer.querySelector('form');
+const main = document.querySelector('.main');
+formContainer.style.display = "none";
+
+
+window.onload = () => {
+    createCategories(categories, document.querySelector('.navigation__menu'));
+}
 function createCategories(categories, parent){
     categories.forEach(categ => {
         const category = document.createElement('div');
@@ -158,6 +164,8 @@ function createGoods(goodsList, key){
 }
 
 function showGoods(event){
+    
+    main.style.display = "block";
     if (currentCategory) currentCategory.style.display = 'none';
     const id = '#' + event.target.dataset.id;
     const goods = document.querySelector(id);
@@ -180,12 +188,99 @@ function showDetails(event){
     button.dataset.goodInfo = [targetGood.querySelector('.title').textContent, targetGood.querySelector('.newPrice').textContent];
     button.addEventListener('click', buy);
 }
-function buy(event){
-    console.log(event.target.dataset);
-    const info = event.target.dataset.goodInfo.split(',');
-    alert(`Thank you for buying ${info[0]}! Amount due is: ${info[1]}`);
+function showError(msg){
+    document.querySelector('#error').innerHTML += msg + '<br>';
+}
+function showOrder(fields){
+    const orderTable = document.createElement('section');
+    orderTable.classList.add('orderTable');
+    orderTable.appendChild(currentGood);
+    currentGood.style.display = "block";
+    document.querySelector('.container').appendChild(orderTable, true);
     
+    for (let i = 0; i < fields.length; i++){
+        if (fields[i].type === 'submit') continue;
+        const orderRow = document.createElement('div');
+        const orderData = document.createElement('div');
+        const orderValue = document.createElement('div');
+
+        orderRow.classList.add('orderTable__row');
+        orderData.classList.add('orderTable__data');
+
+        orderTable.appendChild(orderRow);
+        orderRow.appendChild(orderData);
+        orderRow.appendChild(orderValue);
+        console.log(fields[i]);
+        switch(fields[i].type) {
+            case 'input':      
+                orderData.textContent = fields[i].id;
+                orderValue.textContent = fields[i].value;
+                break;
+            case 'radio':
+            case 'checkbox':
+                orderData.textContent = fields[i].id;
+                orderValue.textContent = fields[i].checked;
+                console.log(fields[i].checked);
+                break;
+            default:
+                orderData.textContent = fields[i].id;
+                orderValue.textContent = fields[i].value;
+        
+                
+        }
+
+    }
+}
+function buy(event){
+    
+    // addToCart(event.target);
+    event.preventDefault();
+    formContainer.style.display = "block";
+ 
+    const info = event.target.dataset.goodInfo.split(',');
     event.target.style.display = 'none';
     currentCategory.style.display = 'none';
+    main.style.display = "none";
+    
+    form.addEventListener('submit', validateForm);
+    // currentGood.style.display = 'none';
+    
+}
+function validateForm(event){
+    event.preventDefault();
+    const fields = event.target;
+    console.log(fields);
+    document.querySelector('#error').innerHTML = "";
+    for(let i = 0; i < fields.length; i++){
+        const el = fields[i];
+        const parentClasses = [...el.parentNode.classList];
+        const elementClasses = [...el.classList];
+        const isRequired = parentClasses.indexOf('required') > -1 || elementClasses.indexOf('required') > -1;
+        if (isRequired && el.textContent.trim() == ""){
+            const msg = `Please fill ${el.name} field`;
+            if (el.value == "") {
+                showError(msg);
+                return;
+            }
+        }
+    }
+    form.style.display = 'none';
     currentGood.style.display = 'none';
+    showOrder(fields);
+}
+function processRadio(radioNodeList, type){
+    let checked = [];
+    for(let i = 0; i < radioNodeList.length; i++){
+        if (radioNodeList[i].checked === true){
+            console.log(type)
+            if (type === 'checkbox')  checked.push(firstLetterToUpperCase(radioNodeList[i].id));
+            else checked.push(radioNodeList[i].value);
+            
+        } 
+    }
+    return checked;
+
+}
+function addToCart(good){
+
 }
